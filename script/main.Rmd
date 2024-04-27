@@ -1,0 +1,31 @@
+---
+title: "main"
+author: "Nils Brun"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+api_key <- rstudioapi::askForPassword()
+```
+```{r}
+library(httr)
+
+headers <- c(
+  "X-API-Key" = "cf03b4a8-5735-3a53-9b0c-d6ba47c74a51",
+  "X-API-Secret" = "5e6811df5d73b19ab6e357898ba5327510f4e4ae15a6c9c766b89d9a6e5ef5dc"
+)
+
+API_BASE_URL <- "https://swissdox.linguistik.uzh.ch/api"
+API_URL_QUERY <- paste0(API_BASE_URL, "/query")
+
+response <- GET(API_URL_QUERY, add_headers(headers))
+
+```
+
+
+
