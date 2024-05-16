@@ -9,9 +9,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
-api_key <- rstudioapi::askForPassword()
-```
 
 ```{r}
 library(httr)
@@ -80,9 +77,42 @@ print(content(response, "text"))
 
 ```
 
+
 ```{r}
+#set the API key and secret
+api_key <- rstudioapi::askForPassword()
+api_secret <- rstudioapi::askForPassword()
+
+headers <- list(
+  "X-API-Key" = "api_key",
+  "X-API-Secret" = "secret"
+)
+```
+
+```{r}
+#load query from query.yml in the data directory
+yaml_example <- readLines("../data/query.yml")
 
 ```
+
+
+```{r}
+library(httr)
+
+
+
+# Submit the query
+response <- POST(url = "https://swissdox.linguistik.uzh.ch/api/query",
+                 add_headers("X-API-Key" = api_key, "X-API-Secret" = api_secret),
+                 body = list(query = yaml_example, test = "1", name = "Query name 1"),
+                 encode = "json")
+
+# Print the response
+print(content(response, "parsed"))
+
+```
+
+
 
 
 
