@@ -12,20 +12,78 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 api_key <- rstudioapi::askForPassword()
 ```
+
 ```{r}
 library(httr)
 
-headers <- c(
-  "X-API-Key" = "cf03b4a8-5735-3a53-9b0c-d6ba47c74a51",
-  "X-API-Secret" = "5e6811df5d73b19ab6e357898ba5327510f4e4ae15a6c9c766b89d9a6e5ef5dc"
+headers <- list(
+  "X-API-Key" = "api_key",
+  "X-API-Secret" = "secret"
 )
 
 API_BASE_URL <- "https://swissdox.linguistik.uzh.ch/api"
 API_URL_QUERY <- paste0(API_BASE_URL, "/query")
 
-response <- GET(API_URL_QUERY, add_headers(headers))
+yaml_example <- ("
+    query:
+        sources:
+            - SRF
+        dates:
+            - from: 2023-10-07
+              to: 2024-05-16
+        languages:
+            - de
+        content:
+            - Hammas
+            - Gaza
+            - Palästina
+            - Israel
+    result:
+        format: TSV
+        maxResults: 10000000
+        columns:
+            - id
+            - pubtime
+            - medium_code
+            - medium_name
+            - rubric
+            - regional
+            - doctype
+            - doctype_description
+            - language
+            - char_count
+            - dateline
+            - head
+            - subhead
+            - content_id
+            - content
+    version: 1.2
+")
+
+data <- list(
+  "query" = yaml_example,
+  "test" = "1",
+  "name" = "Query name 1",
+  "comment" = "Query comment",
+  "expirationDate" = "2023-02-28"
+)
+
+response <- POST(
+  API_URL_QUERY,
+  add_headers(.headers = headers),
+  body = data,
+  encode = "json"
+)
+
+print(content(response, "text"))
+
 
 ```
+
+```{r}
+
+```
+
 
 
 
