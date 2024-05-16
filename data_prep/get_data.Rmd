@@ -1,0 +1,120 @@
+---
+title: "get_data"
+author: "Nils Brun"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Original code on the API documentation
+```{r, eval=F}
+#Original code from API documentation
+library(httr)
+
+headers <- list(
+  "X-API-Key" = "api_key",
+  "X-API-Secret" = "secret"
+)
+
+API_BASE_URL <- "https://swissdox.linguistik.uzh.ch/api"
+API_URL_QUERY <- paste0(API_BASE_URL, "/query")
+
+yaml_example <- ("
+    query:
+        sources:
+            - SRF
+        dates:
+            - from: 2023-10-07
+              to: 2024-05-16
+        languages:
+            - de
+        content:
+            - Hammas
+            - Gaza
+            - Palästina
+            - Israel
+    result:
+        format: TSV
+        maxResults: 10000000
+        columns:
+            - id
+            - pubtime
+            - medium_code
+            - medium_name
+            - rubric
+            - regional
+            - doctype
+            - doctype_description
+            - language
+            - char_count
+            - dateline
+            - head
+            - subhead
+            - content_id
+            - content
+    version: 1.2
+")
+
+data <- list(
+  "query" = yaml_example,
+  "test" = "1",
+  "name" = "Query name 1",
+  "comment" = "Query comment",
+  "expirationDate" = "2023-02-28"
+)
+
+response <- POST(
+  API_URL_QUERY,
+  add_headers(.headers = headers),
+  body = data,
+  encode = "json"
+)
+
+print(content(response, "text"))
+
+
+```
+
+
+# Edited code to fit R-Programminglanguage
+```{r}
+#set the API key and secret
+api_key <- rstudioapi::askForPassword()
+api_secret <- rstudioapi::askForPassword()
+
+headers <- list(
+  "X-API-Key" = "api_key",
+  "X-API-Secret" = "secret"
+)
+```
+
+```{r}
+#load query from query.yml in the data directory
+query_yml <- readLines("../data_prep/query.yml")
+
+```
+
+```{r}
+library(httr)
+
+#submit the query
+response <- POST(url = "https://swissdox.linguistik.uzh.ch/api/query",
+                 add_headers("X-API-Key" = api_key, "X-API-Secret" = api_secret),
+                 body = list(query = query_yml, test = "1", name = "Query name 1"),
+                 encode = "json")
+
+print(content(response, "parsed"))
+```
+
+# Alternative way by downloading the data direclty from the website and loading it into R
+```{r}
+#create df with the data in the data repository
+library(tidyverse)
+
+data_srf <- read_tsv("../data_prep/data_srf.tsv")
+
+head (data_srf)
+```
