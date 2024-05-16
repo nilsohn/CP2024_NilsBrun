@@ -114,7 +114,7 @@ print(content(response, "parsed"))
 #create df with the data in the data repository
 library(tidyverse)
 
-data_srf <- read_tsv("../data_prep/data_srf.tsv")
+data_srf <- read_tsv("../data/data_srf.tsv")
 
 head (data_srf)
 ```

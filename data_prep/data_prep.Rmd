@@ -1,0 +1,22 @@
+---
+title: "main"
+author: "Nils Brun"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#load data
+data_srf <- read_tsv("../data/data_srf.tsv")
+```
+
+
+```{r}
+# Make the "head" column lowercase
+data_srf$head_lower <- tolower(data_srf$head)
+data_srf$content_lower <- tolower(data_srf$content)
+```
