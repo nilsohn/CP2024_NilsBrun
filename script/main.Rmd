@@ -10,6 +10,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+#load data
+library(readr)
+
+data_srf_prep <- read_tsv("../data_prep/data_srf_prep.tsv")
+```
+
+
+```{r}
 # Install the stringr package if you haven't already
 install.packages("stringr")
 

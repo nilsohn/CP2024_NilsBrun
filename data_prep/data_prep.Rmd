@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 #load data
+library(readr)
+
 data_srf <- read_tsv("../data/data_srf.tsv")
 ```
 
@@ -20,3 +22,8 @@ data_srf <- read_tsv("../data/data_srf.tsv")
 data_srf$head_lower <- tolower(data_srf$head)
 data_srf$content_lower <- tolower(data_srf$content)
 ```
+
+```{r}
+write_tsv(data_srf, "../data_prep/data_srf_prep.tsv")
+```
+
