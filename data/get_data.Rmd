@@ -63,7 +63,7 @@ data <- list(
   "test" = "1",
   "name" = "Query name 1",
   "comment" = "Query comment",
-  "expirationDate" = "2023-02-28"
+  "expirationDate" = "2024-12-31"
 )
 
 response <- POST(
@@ -105,7 +105,7 @@ library(httr)
 #submit the query
 response <- POST(url = "https://swissdox.linguistik.uzh.ch/api/query",
                  add_headers("X-API-Key" = api_key, "X-API-Secret" = api_secret),
-                 body = list(query = query_yml, test = "1", name = "palestine"),
+                 body = list(query = query_yml, name = "palestine"),
                  encode = "json")
 
 print(response)
