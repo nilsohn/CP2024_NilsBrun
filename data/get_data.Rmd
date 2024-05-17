@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Original code on the API documentation
+
 ```{r, eval=F}
 #Original code from API documentation
 library(httr)
@@ -78,8 +79,8 @@ print(content(response, "text"))
 
 ```
 
+# Edited code to fit R-Programming language
 
-# Edited code to fit R-Programminglanguage
 ```{r}
 #set the API key and secret
 api_key <- rstudioapi::askForPassword()
@@ -113,7 +114,8 @@ print(response)
 #Error: "We are unable to parse your YAML config"
 ```
 
-# Alternative way by downloading the data direclty from the website and loading it into R
+# Alternative way by downloading the data directly from the website and loading it into R
+
 ```{r}
 #create df with the data in the data repository
 library(tidyverse)
