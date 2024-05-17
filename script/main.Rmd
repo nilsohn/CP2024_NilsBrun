@@ -18,17 +18,11 @@ data_srf_prep <- read_tsv("../data_prep/data_srf_prep.tsv")
 
 
 ```{r}
-# Install the stringr package if you haven't already
-install.packages("stringr")
-
-# Load the stringr package
+#Load the stringr package
 library(stringr)
 
-# Count the occurrences of "hammas" in each entry of the 'head' column, case insensitive
+#Count the occurrences of "hammas" in each entry of the 'head' column, case insensitive
 data_srf$count_hamas <- str_count(tolower(data_srf$head), "hamas")
-
-
-
 ```
 
 

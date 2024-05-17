@@ -93,8 +93,10 @@ headers <- list(
 
 ```{r}
 #load query from query.yml in the data directory
-query_yml <- readLines("../data_prep/query.yml")
+##query_yml <- readLines("../data_prep/query.yml")
+library(yaml)
 
+query_yml <- yaml::yaml.load_file("../data/query.yml")
 ```
 
 ```{r}
@@ -103,10 +105,12 @@ library(httr)
 #submit the query
 response <- POST(url = "https://swissdox.linguistik.uzh.ch/api/query",
                  add_headers("X-API-Key" = api_key, "X-API-Secret" = api_secret),
-                 body = list(query = query_yml, test = "1", name = "Query name 1"),
+                 body = list(query = query_yml, test = "1", name = "palestine"),
                  encode = "json")
 
-print(content(response, "parsed"))
+print(response)
+
+#Error: "We are unable to parse your YAML config"
 ```
 
 # Alternative way by downloading the data direclty from the website and loading it into R
