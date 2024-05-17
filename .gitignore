@@ -31,6 +31,8 @@ vignettes/*.pdf
 # Ignore all TSV files
 *.tsv
 
+# Ignore all xz files
+*.xz
 
 # knitr and R markdown default cache directories
 *_cache/
