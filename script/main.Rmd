@@ -47,15 +47,51 @@ data_srf$content_count_genozid <- str_count(tolower(data_srf$content), "genozid"
 #First try of plotting the data
 library(ggplot2)
 
-# Create the plot
+# Create the plot for hamas
 ggplot(data_srf) +
   geom_point(aes(x = pubtime, y = head_count_hamas, color = "Head Count Hamas")) +
   geom_point(aes(x = pubtime, y = content_count_hamas, color = "Content Count Hamas")) +
   labs(x = "Publication Date", y = "Count", 
        title = "Word Count of 'Hamas' in Newspaper Articles Over Time",
        color = "Legend") +
-  scale_x_date(date_labels = "%Y-%m", date_breaks = "1 month") + # Format date axis to display monthly intervals
-  theme_minimal()
+  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") + # Format date axis to display full month and year
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) # Rotate x-axis text
+
+#new plot for genocide
+ggplot(data_srf) +
+  geom_point(aes(x = pubtime, y = head_count_genozid, color = "Head Count Genozid")) +
+  geom_point(aes(x = pubtime, y = content_count_genozid, color = "Content Count Genozid")) +
+  labs(x = "Publication Date", y = "Count", 
+       title = "Word Count of 'Genozid' in Newspaper Articles Over Time",
+       color = "Legend") +
+  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+
+#New visualization for "Palästina"
+ggplot(data_srf) +
+  geom_point(aes(x = pubtime, y = head_count_palaestina, color = "Head Count Palästina")) +
+  geom_point(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palästina")) +
+  labs(x = "Publication Date", y = "Count", 
+       title = "Word Count of 'Palästina' in Newspaper Articles Over Time",
+       color = "Legend") +
+  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+
+#new visualization for "Israel"
+ggplot(data_srf) +
+  geom_point(aes(x = pubtime, y = head_count_israel, color = "Head Count Israel")) +
+  geom_point(aes(x = pubtime, y = content_count_israel, color = "Content Count Israel")) +
+  labs(x = "Publication Date", y = "Count", 
+       title = "Word Count of 'Israel' in Newspaper Articles Over Time",
+       color = "Legend") +
+  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
 
