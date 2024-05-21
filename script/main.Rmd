@@ -29,9 +29,34 @@ data_srf$content_count_hamas <- str_count(tolower(data_srf$content), "hamas")
 data_srf$head_count_israel <- str_count(tolower(data_srf$head), "israel")
 data_srf$content_count_israel <- str_count(tolower(data_srf$content), "israel")
 
+#Count the occurrence of "Palästina" in each entry of the "head" and "content column, case insensitive
+data_srf$head_count_palaestina <- str_count(tolower(data_srf$head), "palästina")
+data_srf$content_count_palaestina <- str_count(tolower(data_srf$content), "palästina")
 
+#Count the occurrence of "Gaza" in each entry of the "head" and "content column, case insensitive
+data_srf$head_count_gaza <- str_count(tolower(data_srf$head), "gaza")
+data_srf$content_count_gaza <- str_count(tolower(data_srf$content), "gaza")
+
+#Count the occurence of "Genozid" in each entry of the "head" and "content" column, case insensitive
+data_srf$head_count_genozid <- str_count(tolower(data_srf$head), "genozid")
+data_srf$content_count_genozid <- str_count(tolower(data_srf$content), "genozid")
 ```
 
+
+```{r}
+#First try of plotting the data
+library(ggplot2)
+
+# Create the plot
+ggplot(data_srf) +
+  geom_point(aes(x = pubtime, y = head_count_hamas, color = "Head Count Hamas")) +
+  geom_point(aes(x = pubtime, y = content_count_hamas, color = "Content Count Hamas")) +
+  labs(x = "Publication Date", y = "Count", 
+       title = "Word Count of 'Hamas' in Newspaper Articles Over Time",
+       color = "Legend") +
+  scale_x_date(date_labels = "%Y-%m", date_breaks = "1 month") + # Format date axis to display monthly intervals
+  theme_minimal()
+```
 
 
 
