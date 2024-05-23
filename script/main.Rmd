@@ -40,6 +40,14 @@ data_srf$content_count_gaza <- str_count(tolower(data_srf$content), "gaza")
 #Count the occurence of "Genozid" in each entry of the "head" and "content" column, case insensitive
 data_srf$head_count_genozid <- str_count(tolower(data_srf$head), "genozid")
 data_srf$content_count_genozid <- str_count(tolower(data_srf$content), "genozid")
+
+#Count the occurence of "Krieg" in each entry of the "head" and "content" column, case insensitive
+data_srf$head_count_krieg <- str_count(tolower(data_srf$head), "krieg")
+data_srf$content_count_krieg <- str_count(tolower(data_srf$content), "krieg")
+
+#Count the occurence of "Terrorismus" in each entry of the "head" and "content" column, case insensitive
+data_srf$head_count_terrorismus <- str_count(tolower(data_srf$head), "terrorismus")
+data_srf$content_count_terrorismus <- str_count(tolower(data_srf$content), "terrorismus")
 ```
 
 
@@ -47,16 +55,16 @@ data_srf$content_count_genozid <- str_count(tolower(data_srf$content), "genozid"
 #First try of plotting the data
 library(ggplot2)
 
-# Create the plot for hamas
+#Create the plot for hamas
 ggplot(data_srf) +
   geom_point(aes(x = pubtime, y = head_count_hamas, color = "Head Count Hamas")) +
   geom_point(aes(x = pubtime, y = content_count_hamas, color = "Content Count Hamas")) +
   labs(x = "Publication Date", y = "Count", 
        title = "Word Count of 'Hamas' in Newspaper Articles Over Time",
        color = "Legend") +
-  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") + # Format date axis to display full month and year
+  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) # Rotate x-axis text
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 #new plot for genocide
 ggplot(data_srf) +
@@ -93,6 +101,86 @@ ggplot(data_srf) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
+
+
+```{r}
+#Make some cross visualisations
+#Plot for "Krieg" vs "Genozid"
+ggplot(data_srf) +
+  geom_point(aes(x = pubtime, y = content_count_genozid, color = "Content Count Genozid"), size = 1, alpha = 0.3) +
+  geom_point(aes(x = pubtime, y = content_count_krieg, color = "Content Count Krieg"), size = 1, alpha = 0.3) +
+  labs(x = "Publication Date", y = "Count", 
+       title = "Word Count of 'Genozid' and 'Krieg' in Newspaper Articles Over Time",
+       color = "Legend") +
+  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+#Add a loess smoothed line to the plot
+ggplot(data_srf) +
+  geom_point(aes(x = pubtime, y = content_count_genozid, color = "Content Count Genozid"), size = 1, alpha = 0.3) +
+  geom_point(aes(x = pubtime, y = content_count_krieg, color = "Content Count Krieg"), size = 1, alpha = 0.3) +
+  geom_smooth(aes(x = pubtime, y = content_count_genozid, color = "Content Count Genozid"), method = "loess", se = FALSE) +
+  geom_smooth(aes(x = pubtime, y = content_count_krieg, color = "Content Count Krieg"), method = "loess", se = FALSE) +
+  labs(x = "Publication Date", y = "Count", 
+       title = "Word Count of 'Genozid' and 'Krieg' in Newspaper Articles Over Time",
+       color = "Legend") +
+  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+#export the plot into ../figs
+ggsave("../figs/word_count_genozid_krieg.png", width = 10, height = 6)
+
+```
+
+```{r}
+#Plot for "Hamas" vs "Palästina"
+ggplot(data_srf) +
+  geom_point(aes(x = pubtime, y = content_count_hamas, color = "Content Count Hamas"), size = 1, alpha = 0.3) +
+  geom_point(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palästina"), size = 1, alpha = 0.3) +
+  labs(x = "Publication Date", y = "Count", 
+       title = "Word Count of 'Hamas' and 'Palästina' in Newspaper Articles Over Time",
+       color = "Legend") +
+  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+#save plot
+ggsave("../figs/word_count_hamas_palaestina.png", width = 10, height = 6)
+```
+```{r}
+#Plot for "Gaza" vs "Israel"
+ggplot(data_srf) +
+  geom_point(aes(x = pubtime, y = content_count_gaza, color = "Content Count Gaza"), size = 1, alpha = 0.3) +
+  geom_point(aes(x = pubtime, y = content_count_israel, color = "Content Count Israel"), size = 1, alpha = 0.3) +
+  labs(x = "Publication Date", y = "Count", 
+       title = "Word Count of 'Gaza' and 'Israel' in Newspaper Articles Over Time",
+       color = "Legend") +
+  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+#add a loess smoothed line to the plot
+ggplot(data_srf) +
+  geom_point(aes(x = pubtime, y = content_count_gaza, color = "Content Count Gaza"), size = 1, alpha = 0.3) +
+  geom_point(aes(x = pubtime, y = content_count_israel, color = "Content Count Israel"), size = 1, alpha = 0.3) +
+  geom_smooth(aes(x = pubtime, y = content_count_gaza, color = "Content Count Gaza"), method = "loess", se = FALSE) +
+  geom_smooth(aes(x = pubtime, y = content_count_israel, color = "Content Count Israel"), method = "loess", se = FALSE) +
+  labs(x = "Publication Date", y = "Count", 
+       title = "Word Count of 'Gaza' and 'Israel' in Newspaper Articles Over Time",
+       color = "Legend") +
+  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+#save plot
+ggsave("../figs/world_count_gaza_israel.png", width = 10, height = 6)
+```
+```{r}
+
+```
+
 
 
 
