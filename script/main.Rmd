@@ -16,41 +16,6 @@ library(readr)
 data_srf <- read_tsv("../data_prep/data_srf_prep.tsv")
 ```
 
-
-```{r}
-#Load the stringr package
-library(stringr)
-
-#Count the occurrences of "hamas" in each entry of the "head" and "content" column, case insensitive
-data_srf$head_count_hamas <- str_count(tolower(data_srf$head), "hamas")
-data_srf$content_count_hamas <- str_count(tolower(data_srf$content), "hamas")
-
-#Count the occurrences of "israel" in each entry of the "head" and "content" column, case insensitive
-data_srf$head_count_israel <- str_count(tolower(data_srf$head), "israel")
-data_srf$content_count_israel <- str_count(tolower(data_srf$content), "israel")
-
-#Count the occurrence of "Palästina" in each entry of the "head" and "content column, case insensitive
-data_srf$head_count_palaestina <- str_count(tolower(data_srf$head), "palästina")
-data_srf$content_count_palaestina <- str_count(tolower(data_srf$content), "palästina")
-
-#Count the occurrence of "Gaza" in each entry of the "head" and "content column, case insensitive
-data_srf$head_count_gaza <- str_count(tolower(data_srf$head), "gaza")
-data_srf$content_count_gaza <- str_count(tolower(data_srf$content), "gaza")
-
-#Count the occurence of "Genozid" in each entry of the "head" and "content" column, case insensitive
-data_srf$head_count_genozid <- str_count(tolower(data_srf$head), "genozid")
-data_srf$content_count_genozid <- str_count(tolower(data_srf$content), "genozid")
-
-#Count the occurence of "Krieg" in each entry of the "head" and "content" column, case insensitive
-data_srf$head_count_krieg <- str_count(tolower(data_srf$head), "krieg")
-data_srf$content_count_krieg <- str_count(tolower(data_srf$content), "krieg")
-
-#Count the occurence of "Terrorismus" in each entry of the "head" and "content" column, case insensitive
-data_srf$head_count_terrorismus <- str_count(tolower(data_srf$head), "terrorismus")
-data_srf$content_count_terrorismus <- str_count(tolower(data_srf$content), "terrorismus")
-```
-
-
 ```{r}
 #First try of plotting the data
 library(ggplot2)
