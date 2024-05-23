@@ -24,6 +24,12 @@ data_srf$content_lower <- tolower(data_srf$content)
 ```
 
 ```{r}
+#change the formate of the pubtime variable
+data_srf$pubtime <- as.Date(data_srf$pubtime)
+```
+
+
+```{r}
 write_tsv(data_srf, "../data_prep/data_srf_prep.tsv")
 ```
 
