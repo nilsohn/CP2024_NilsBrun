@@ -1,0 +1,134 @@
+---
+title: "report"
+author: "Nils Brun"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+This Project aimed to understand and analyze the bias in the media coverage of
+conflict happening in gaza. 
+Using the swissdox API of the LiRi (Linguistic Research Infrastructure) of the University of Zurich, i got access to the data of the SRF (Schweizer Radio und Fernsehen) news articles in the time frame of the 7. october 2023 to the 21. may 2024. The specific time frame was chosen, due to the attacks of Hamas on Israel 
+at the beginning of this new stage of the conflict.
+
+# Hypothesis
+The hypothesis of this project suggests, that the media coverage is not only slanted towards more visibility
+for the israeli side, but also that the media coverage is biased in the way that it is more likely to use
+negative words when talking about the palestinian side.
+
+Therefore the hypothesis of this short capstoneproject are the following:
+1. The media coverage of SRF gives more visibility to the israeli side
+2. The media coverage of SRF is negatively slanted towards the palestinian side
+
+# Data gathering, preparation and plotting
+## Data gathering
+Unfortunately the documentation of the API was only for python. While my attempts on translating the code to R were not successful (this can be seen in the junk folder), i decided to use a jupiter notebook with python to gather the data. The data was then saved as a tsv file and loaded into R. 
+The jupiter notebook can be found in the data folder.
+
+## Data preparation
+```{r, eval=F}
+#load data
+library(readr)
+data_srf <- read_tsv("../data/dataset.tsv")
+
+#make the "head" and "content" column lowercase
+data_srf$head_lower <- tolower(data_srf$head)
+data_srf$content_lower <- tolower(data_srf$content)
+
+#change the formate of the pubtime variable
+data_srf$pubtime <- as.Date(data_srf$pubtime)
+
+#Load the stringr package
+library(stringr)
+
+#Count the occurrences of "hamas" in each entry of the "head" and "content" column, case insensitive
+data_srf$head_count_hamas <- str_count(tolower(data_srf$head), "hamas")
+data_srf$content_count_hamas <- str_count(tolower(data_srf$content), "hamas")
+
+#Count the occurrences of "israel" in each entry of the "head" and "content" column, case insensitive
+data_srf$head_count_israel <- str_count(tolower(data_srf$head), "israel")
+data_srf$content_count_israel <- str_count(tolower(data_srf$content), "israel")
+
+#Count the occurrence of "Palästina" in each entry of the "head" and "content column, case insensitive
+data_srf$head_count_palaestina <- str_count(tolower(data_srf$head), "palästina")
+data_srf$content_count_palaestina <- str_count(tolower(data_srf$content), "palästina")
+
+#Count the occurrence of "Gaza" in each entry of the "head" and "content column, case insensitive
+data_srf$head_count_gaza <- str_count(tolower(data_srf$head), "gaza")
+data_srf$content_count_gaza <- str_count(tolower(data_srf$content), "gaza")
+
+#Count the occurence of "Genozid" in each entry of the "head" and "content" column, case insensitive
+data_srf$head_count_genozid <- str_count(tolower(data_srf$head), "genozid")
+data_srf$content_count_genozid <- str_count(tolower(data_srf$content), "genozid")
+
+#Count the occurence of "Krieg" in each entry of the "head" and "content" column, case insensitive
+data_srf$head_count_krieg <- str_count(tolower(data_srf$head), "krieg")
+data_srf$content_count_krieg <- str_count(tolower(data_srf$content), "krieg")
+
+#Count the occurence of "Terrorismus" in each entry of the "head" and "content" column, case insensitive
+data_srf$head_count_terrorismus <- str_count(tolower(data_srf$head), "terrorismus")
+data_srf$content_count_terrorismus <- str_count(tolower(data_srf$content), "terrorismus")
+
+#save preped data
+write_tsv(data_srf, "../data_prep/data_srf_prep.tsv")
+```
+
+## Data plotting
+While I did some additional plots in the main.Rmd file, there will only be the more significant plots in this report. 
+```{r, echo=F, message=F}
+#load data
+library(readr)
+data_srf <- read_tsv("../data_prep/data_srf_prep.tsv")
+
+library(ggplot2)
+
+#Plot for "Gaza" vs "Israel"
+ggplot(data_srf) +
+  geom_point(aes(x = pubtime, y = content_count_gaza, color = "Content Count Gaza"), size = 1, alpha = 0.3) +
+  geom_point(aes(x = pubtime, y = content_count_israel, color = "Content Count Israel"), size = 1, alpha = 0.3) +
+  geom_smooth(aes(x = pubtime, y = content_count_gaza, color = "Content Count Gaza"), method = "loess", se = FALSE) +
+  geom_smooth(aes(x = pubtime, y = content_count_israel, color = "Content Count Israel"), method = "loess", se = FALSE) +
+  labs(x = "Publication Date", y = "Count", 
+       title = "Word Count of 'Gaza' and 'Israel' in Newspaper Articles Over Time",
+       color = "Legend") +
+  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+
+#Plot for "Krieg" vs "Genozid"
+ggplot(data_srf) +
+  geom_point(aes(x = pubtime, y = content_count_genozid, color = "Content Count Genozid"), size = 1, alpha = 0.3) +
+  geom_point(aes(x = pubtime, y = content_count_krieg, color = "Content Count Krieg"), size = 1, alpha = 0.3) +
+  geom_smooth(aes(x = pubtime, y = content_count_genozid, color = "Content Count Genozid"), method = "loess", se = FALSE) +
+  geom_smooth(aes(x = pubtime, y = content_count_krieg, color = "Content Count Krieg"), method = "loess", se = FALSE) +
+  labs(x = "Publication Date", y = "Count", 
+       title = "Word Count of 'Genozid' and 'Krieg' in Newspaper Articles Over Time",
+       color = "Legend") +
+  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+
+#Plot for "Hamas" vs "Palästina"
+ggplot(data_srf) +
+  geom_point(aes(x = pubtime, y = content_count_hamas, color = "Content Count Hamas"), size = 1, alpha = 0.3) +
+  geom_point(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palästina"), size = 1, alpha = 0.3) +
+  labs(x = "Publication Date", y = "Count", 
+       title = "Word Count of 'Hamas' and 'Palästina' in Newspaper Articles Over Time",
+       color = "Legend") +
+  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+#save plot
+ggsave("../figs/world_count_gaza_israel.png", width = 10, height = 6)
+```
+
+# Discussion
+The first plot is a word count of the two words "gaza" and "israel". Allthough it would be hard to make a conclusion on the media coverage of both of the sides on only this plot, it is interesting to see that Israel gets consistently more mentioned than gaza
+
