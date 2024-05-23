@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # Introduction
 This Project aimed to understand and analyze the bias in the media coverage of
 conflict happening in gaza. 
-Using the swissdox API of the LiRi (Linguistic Research Infrastructure) of the University of Zurich, i got access to the data of the SRF (Schweizer Radio und Fernsehen) news articles in the time frame of the 7. october 2023 to the 21. may 2024. The specific time frame was chosen, due to the attacks of Hamas on Israel 
+Using the swissdox API of the LiRi (Linguistic Research Infrastructure) of the University of Zurich, i got access to the data of the SRF (Schweizer Radio und Fernsehen) news articles in the time frame of the 7. october 2023 to the 21. may 2024. The specific time frame was chosen, due to the attacks of Hamas on Israel
 at the beginning of this new stage of the conflict.
 
 # Hypothesis
@@ -138,6 +138,8 @@ This might imply that the media coverage is more focused on the israeli side. Th
 The second and thrid plot both aim to investigate a portrayal bias in the media coverage. The second plot shows the word count of "Genozid" and "Krieg". While the word "Genozid" is used very rarely, the word "Krieg" is used more often. This is especially interesting since multiple international organisations have stated that this conflict is to be considered a genocide of the palestinian people.
 
 The third plot shows the word count of "Hamas" and "Palästina". While Hamas is the terror organisation, palestine is the national state of the palestinian people. Even if hamas is the military force of the palistinian nation, it deligitimizes the palestinian cause to live free and have their own state.
+
+The hypothesis one and two can both be supported by the (limited) data.
 
 # Conclusion
 While the focus on this project was on the data gathering, preparation and evaluation it still shows some interesting results. Even if those results may be right (as much as I think they are) it is important that this analysis is not nearly scientific enough. For this reason it would make sence to further investigate the data, use a bigger dataset and more sophisticated methods of evaluation.
