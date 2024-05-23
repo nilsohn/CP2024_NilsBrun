@@ -1,5 +1,5 @@
 ---
-title: "report"
+title: "Capstone project Nils Brun 2024"
 author: "Nils Brun"
 date: "`r Sys.Date()`"
 output: html_document
@@ -53,9 +53,12 @@ data_srf$content_count_hamas <- str_count(tolower(data_srf$content), "hamas")
 data_srf$head_count_israel <- str_count(tolower(data_srf$head), "israel")
 data_srf$content_count_israel <- str_count(tolower(data_srf$content), "israel")
 
+#change all "ä" to "ae" in the "head" and "content" column
+data_srf$head <- str_replace_all(data_srf$head, "\u00e4", "ae")
+data_srf$content <- str_replace_all(data_srf$content, "\u00e4", "ae")
 #Count the occurrence of "Palästina" in each entry of the "head" and "content column, case insensitive
-data_srf$head_count_palaestina <- str_count(tolower(data_srf$head), "palästina")
-data_srf$content_count_palaestina <- str_count(tolower(data_srf$content), "palästina")
+data_srf$head_count_palaestina <- str_count(tolower(data_srf$head), "palaestina")
+data_srf$content_count_palaestina <- str_count(tolower(data_srf$content), "palaestina")
 
 #Count the occurrence of "Gaza" in each entry of the "head" and "content column, case insensitive
 data_srf$head_count_gaza <- str_count(tolower(data_srf$head), "gaza")
@@ -86,14 +89,16 @@ data_srf <- read_tsv("../data_prep/data_srf_prep.tsv")
 
 library(ggplot2)
 
-#Plot for "Gaza" vs "Israel"
+#Plot for "Gaza" vs "Israel" vs "Palaestina"
 ggplot(data_srf) +
   geom_point(aes(x = pubtime, y = content_count_gaza, color = "Content Count Gaza"), size = 1, alpha = 0.3) +
   geom_point(aes(x = pubtime, y = content_count_israel, color = "Content Count Israel"), size = 1, alpha = 0.3) +
+  geom_point(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palaestina"), size = 1, alpha = 0.3) + 
   geom_smooth(aes(x = pubtime, y = content_count_gaza, color = "Content Count Gaza"), method = "loess", se = FALSE) +
   geom_smooth(aes(x = pubtime, y = content_count_israel, color = "Content Count Israel"), method = "loess", se = FALSE) +
+  geom_smooth(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palaestina"), method = "loess", se = FALSE) + 
   labs(x = "Publication Date", y = "Count", 
-       title = "Word Count of 'Gaza' and 'Israel' in Newspaper Articles Over Time",
+       title = "Word Count of 'Gaza', 'Israel', and 'Palaestina' in Newspaper Articles Over Time",
        color = "Legend") +
   scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
   theme_minimal() +
@@ -117,18 +122,25 @@ ggplot(data_srf) +
 #Plot for "Hamas" vs "Palästina"
 ggplot(data_srf) +
   geom_point(aes(x = pubtime, y = content_count_hamas, color = "Content Count Hamas"), size = 1, alpha = 0.3) +
-  geom_point(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palästina"), size = 1, alpha = 0.3) +
+  geom_point(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palaestina"), size = 1, alpha = 0.3) +
   labs(x = "Publication Date", y = "Count", 
-       title = "Word Count of 'Hamas' and 'Palästina' in Newspaper Articles Over Time",
+       title = "Word Count of 'Hamas' and 'Palaestina' in Newspaper Articles Over Time",
        color = "Legend") +
   scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-
-#save plot
-ggsave("../figs/world_count_gaza_israel.png", width = 10, height = 6)
 ```
 
 # Discussion
-The first plot is a word count of the two words "gaza" and "israel". Allthough it would be hard to make a conclusion on the media coverage of both of the sides on only this plot, it is interesting to see that Israel gets consistently more mentioned than gaza
+The first plot is a word count of the three words "Gaza", "Palästina" and "Israel". Allthough it would be hard to make a conclusion on the media coverage of both of the sides on only this plot, it is interesting to see that Israel gets consistently more mentioned than Gaza and Palästina.
+This might imply that the media coverage is more focused on the israeli side. There is definitely more research necessary to make a definite conclusion on this.
+
+The second and thrid plot both aim to investigate a portrayal bias in the media coverage. The second plot shows the word count of "Genozid" and "Krieg". While the word "Genozid" is used very rarely, the word "Krieg" is used more often. This is especially interesting since multiple international organisations have stated that this conflict is to be considered a genocide of the palestinian people.
+
+The third plot shows the word count of "Hamas" and "Palästina". While Hamas is the terror organisation, palestine is the national state of the palestinian people. Even if hamas is the military force of the palistinian nation, it deligitimizes the palestinian cause to live free and have their own state.
+
+# Conclusion
+While the focus on this project was on the data gathering, preparation and evaluation it still shows some interesting results. Even if those results may be right (as much as I think they are) it is important that this analysis is not nearly scientific enough. For this reason it would make sence to further investigate the data, use a bigger dataset and more sophisticated methods of evaluation.
+
+
 
