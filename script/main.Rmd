@@ -103,9 +103,9 @@ ggsave("../figs/word_count_genozid_krieg.png", width = 10, height = 6)
 #Plot for "Hamas" vs "Palästina"
 ggplot(data_srf) +
   geom_point(aes(x = pubtime, y = content_count_hamas, color = "Content Count Hamas"), size = 1, alpha = 0.3) +
-  geom_point(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palästina"), size = 1, alpha = 0.3) +
+  geom_point(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palaestina"), size = 1, alpha = 0.3) +
   labs(x = "Publication Date", y = "Count", 
-       title = "Word Count of 'Hamas' and 'Palästina' in Newspaper Articles Over Time",
+       title = "Word Count of 'Hamas' and 'Palaestina' in Newspaper Articles Over Time",
        color = "Legend") +
   scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
   theme_minimal() +
@@ -115,12 +115,13 @@ ggplot(data_srf) +
 ggsave("../figs/word_count_hamas_palaestina.png", width = 10, height = 6)
 ```
 ```{r}
-#Plot for "Gaza" vs "Israel"
+#Plot for "Gaza" vs "Israel" vs "Palaestina"
 ggplot(data_srf) +
   geom_point(aes(x = pubtime, y = content_count_gaza, color = "Content Count Gaza"), size = 1, alpha = 0.3) +
   geom_point(aes(x = pubtime, y = content_count_israel, color = "Content Count Israel"), size = 1, alpha = 0.3) +
+  geom_point(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palaestina"), size = 1, alpha = 0.3) + 
   labs(x = "Publication Date", y = "Count", 
-       title = "Word Count of 'Gaza' and 'Israel' in Newspaper Articles Over Time",
+       title = "Word Count of 'Gaza', 'Israel', and 'Palaestina' in Newspaper Articles Over Time",
        color = "Legend") +
   scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
   theme_minimal() +
@@ -130,26 +131,10 @@ ggplot(data_srf) +
 ggplot(data_srf) +
   geom_point(aes(x = pubtime, y = content_count_gaza, color = "Content Count Gaza"), size = 1, alpha = 0.3) +
   geom_point(aes(x = pubtime, y = content_count_israel, color = "Content Count Israel"), size = 1, alpha = 0.3) +
+  geom_point(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palaestina"), size = 1, alpha = 0.3) + 
   geom_smooth(aes(x = pubtime, y = content_count_gaza, color = "Content Count Gaza"), method = "loess", se = FALSE) +
   geom_smooth(aes(x = pubtime, y = content_count_israel, color = "Content Count Israel"), method = "loess", se = FALSE) +
-  labs(x = "Publication Date", y = "Count", 
-       title = "Word Count of 'Gaza' and 'Israel' in Newspaper Articles Over Time",
-       color = "Legend") +
-  scale_x_date(date_labels = "%B %Y", date_breaks = "1 month") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-
-#save plot
-ggsave("../figs/world_count_gaza_israel.png", width = 10, height = 6)
-```
-```{r}
-ggplot(data_srf) +
-  geom_point(aes(x = pubtime, y = content_count_gaza, color = "Content Count Gaza"), size = 1, alpha = 0.3) +
-  geom_point(aes(x = pubtime, y = content_count_israel, color = "Content Count Israel"), size = 1, alpha = 0.3) +
-  geom_point(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palaestina"), size = 1, alpha = 0.3) +  # Adding content_count_palaestina
-  geom_smooth(aes(x = pubtime, y = content_count_gaza, color = "Content Count Gaza"), method = "loess", se = FALSE) +
-  geom_smooth(aes(x = pubtime, y = content_count_israel, color = "Content Count Israel"), method = "loess", se = FALSE) +
-  geom_smooth(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palaestina"), method = "loess", se = FALSE) +  # Adding content_count_palaestina
+  geom_smooth(aes(x = pubtime, y = content_count_palaestina, color = "Content Count Palaestina"), method = "loess", se = FALSE) + 
   labs(x = "Publication Date", y = "Count", 
        title = "Word Count of 'Gaza', 'Israel', and 'Palaestina' in Newspaper Articles Over Time",
        color = "Legend") +
@@ -157,7 +142,10 @@ ggplot(data_srf) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
+#save plot
+ggsave("../figs/world_count_gaza_israel_palaestina.png", width = 10, height = 6)
 ```
+
 
 
 
